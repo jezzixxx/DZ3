@@ -14,11 +14,19 @@ int main() {
     char ch = '0';
     while (ch != '\n') {
         ch = std::cin.peek();
-        if ((ch >= '0' && ch <= '9') || ch == '-' && zero) {
+        if (ch >= '0' && ch <= '9') {
             init.type = '0';
             std::cin >> init.value;
             nums.push(init);
+        } else if (ch == '-' && zero) {
             zero = false;
+            init.type = '0';
+            init.value = 0;
+            nums.push(init);
+            init.type = '-';
+            init.value = 0;
+            oper.push(init);
+            std::cin.ignore();
         } else if (ch == 'p') {
             init.type = '0';
             init.value = Pi;
@@ -119,6 +127,7 @@ int main() {
             init.value = 0;
             oper.push(init);
             std::cin.ignore();
+            zero = true;
         } else if (ch == ')') {
             while (oper.top().type != '(') {
                 count(nums, oper, init);
